@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper  namespace="com.company.mapper.MilkMapper" >
+	
+	<select id="list" resultType="com.company.dto.MilkDto"    >
+		select * from milk order by mno desc
+	</select>
+	
+	<insert id="create">
+	insert into milk (mno,mname,mprice) values (seq_milk.nextval,#{mname},#{mprice})
+	</insert>
+	
+	<select id="read"  resultType="com.company.dto.MilkDto">
+	select*from milk where mno= #{mno}
+	</select>
+	
+	<update id="update">
+	update milk set mname=#{mname},mprice=#{mprice} where mno=#{mno}
+	</update>
+	
+	<delete id="delete">
+	delete from milk where mno=#{mno}
+	</delete>
+</mapper>  
+<!-- https://mybatis.org/mybatis-3/ko/sqlmap-xml.html -->
