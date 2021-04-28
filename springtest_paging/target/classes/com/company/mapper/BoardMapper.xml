@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+  
+  <mapper namespace="com.company.mapper.BoardMapper">
+  <select id="list" resultType="com.company.dto.BoardDto">
+         select*from mvcboard order by bno desc
+  </select>
+  
+  <insert id="create">
+  <!-- oracle -->
+  insert into mvcboard ( bno,bname,bpass,btitle,bcontent,bip,bfile) 
+  values ( seq_mvcboard.nextval,#{bname},#{bpass},#{btitle},#{bcontent},#{bip},#{bfile})
+  
+<!--    insert into mvcboard ( bname,bpass,btitle,bcontent,bip) 
+  values ( #{bname},#{bpass},#{btitle},#{bcontent},#{bip}) -->
+  </insert>
+  
+  <select id="read" resultType="com.company.dto.BoardDto">
+  select*from mvcboard where bno=#{bno}
+  </select>
+  
+  <select id="select">
+  update mvcboard set bhit=bhit+1 where bno=#{bno}
+  </select>
+  
+  <update id="update_hit">
+  update mvcboard set bhit=bhit+1 where bno=#{bno}
+  </update>
+  
+  <update id="update" >
+  <!-- update mvcboard set btitle=#{btitle},bcontent=#{bcontent} where bno=#{bno} and bpass=#{bpass} -->
+  update mvcboard set btitle=#{btitle},bcontent=#{bcontent},bfile=#{bfile} where bno=#{bno} and bpass=#{bpass}
+  </update>
+  
+  <delete id="delete">
+  delete from mvcboard where bno=#{bno} and bpass=#{bpass}
+  </delete>
+  
+  <!-- paging -->
+  <!-- paging -->
+  <select id="listcnt" resultType="int"><!-- resultType는 dto 안쓰고 mapper에서 int 로 만들어줬다  -->
+  select count(*)  from mvcboard
+  </select>
+  <select id="list10" resultType="com.company.dto.BoardDto" parameterType="java.util.HashMap">
+<!-- oracle --> 
+select * from(select rownum rnum, a.* from (select *from mvcboard order by bno desc)a)b
+  where b.rnum between #{pstartno} and #{onepagelist}
+  
+  <!--mysql  -->
+  <!-- 0부터,10  10부터 19까지  -->
+  <!-- select *from mvcboard order by bno  desc limit #{pstartno},10 -->
+  </select>
+  
+  
+  
+  
+  
+  
+  
+  
+  </mapper>
